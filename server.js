@@ -19,7 +19,9 @@ app.post('/api/generate', async function(req, res) {
   var prompt = req.body.prompt;
   if (!prompt) { return res.status(400).json({ error: 'Prompt manquant' }); }
   var apiKey = process.env.ANTHROPIC_API_KEY;
-  if (!apiKey) { return res.status(500).json({ error: 'ANTHROPIC_API_KEY 
+  if (!apiKey) { 
+    return res.status(500).json({ 
+      error: 'ANTHROPIC_API_KEY 
     try {
   var response = await fetch('https://api.anthropic.com/v1/messages', {
     method: 'POST',
