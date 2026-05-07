@@ -58,7 +58,7 @@ app.post('/api/generate', async function(req, res) {
     error: err.message || 'Erreur serveur'
   });
 }
-
+  });
 app.post('/api/create-payment-intent', async function(req, res) {
   var stripeKey = process.env.STRIPE_SECRET_KEY;
   if (!stripeKey) { return res.status(500).json({ error: 'STRIPE_SECRET_KEY manquante' }); }
