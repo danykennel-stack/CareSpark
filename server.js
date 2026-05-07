@@ -19,25 +19,35 @@ app.post('/api/generate', async function(req, res) {
   var prompt = req.body.prompt;
   if (!prompt) { return res.status(400).json({ error: 'Prompt manquant' }); }
   var apiKey = process.env.ANTHROPIC_API_KEY;
-  if (!apiKey) { return res.status(500).json({ error: 'ANTHROPIC_API_KEY manquante' }); }
-  try {
-    var response = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-api-key': apiKey.trim(),
-        'anthropic-version': '2023-06-01'
-      },
-      body: JSON.stringify({
-        model: 'claude-3-5-sonnet-20241022',
-        max_tokens: 3000,
-        messages: [{ role: 'user', content: prompt }]
-      })
+  if (!apiKey) { return res.status(500).json({ error: 'ANTHROPIC_API_KEY 
+    try {
+  var response = await fetch('https://api.anthropic.com/v1/messages', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'x-api-key': apiKey.trim(),
+      'anthropic-version': '2023-06-01'
+    },
+    body: JSON.stringify({
+      model: 'claude-3-5-sonnet-20241022',
+      max_tokens: 3000,
+      messages: [{ role: 'user', content: prompt }]
+    })
+  });
+
+  var data = await response.json();
+
+  if (data.error) {
+    return res.status(500).json({
+      error: data.error.message
     });
-    var data = await response.json();
-    if (data.error) { return res.status(500).json({ error: data.error.message }); }
-    return res.json({ text: data.content[0].
-      } catch (err) {
+  }
+
+  return res.json({
+    text: data.content[0].text
+  });
+
+} catch (err) {
   console.error('ERREUR COMPLETE :', err);
 
   return res.status(500).json({
