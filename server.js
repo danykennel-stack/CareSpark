@@ -45,11 +45,20 @@ app.post('/api/generate', async function(req, res) {
     return res.status(500).json({
       error: data.error.message
     });
+
+if (!data.content || !data.content[0]) {
+  console.log(data);
+  return res.status(500).json({
+    error: 'Réponse Anthropic invalide'
+  });
+}
+
+return res.json({
+  text: data.content[0].text
+});
   }
 
-  return res.json({
-    text: data.content[0].text
-  });
+  
 
 } catch (err) {
   console.error('ERREUR COMPLETE :', err);
