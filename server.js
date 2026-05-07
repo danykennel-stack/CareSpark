@@ -36,8 +36,8 @@ app.post('/api/generate', async function(req, res) {
     });
     var data = await response.json();
     if (data.error) { return res.status(500).json({ error: data.error.message }); }
-    return res.json({ text: data.content[0].text });
-  } catch (err) {
+    return res.json({ text: data.content[0].
+      } catch (err) {
   console.error('ERREUR COMPLETE :', err);
 
   return res.status(500).json({
